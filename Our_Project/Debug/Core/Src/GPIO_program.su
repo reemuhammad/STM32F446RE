@@ -1,0 +1,6 @@
+../Core/Src/GPIO_program.c:11:6:GPIO_voidSetPinDirection	24	static
+../Core/Src/GPIO_program.c:105:6:GPIO_voidSetPinValue	16	static
+../Core/Src/GPIO_program.c:135:4:GPIO_u8GetPinValue	24	static
+../Core/Src/GPIO_program.c:159:6:GPIO_voidWritePort	16	static
+../Core/Src/GPIO_program.c:181:6:GPIO_voidLockPin	24	static
+../Core/Src/GPIO_program.c:225:6:GPIO_voidSetAlternatingFunction	16	static

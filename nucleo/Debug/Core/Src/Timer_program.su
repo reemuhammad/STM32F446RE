@@ -1,0 +1,8 @@
+../Core/Src/Timer_program.c:23:6:TimerX_Count	16	static
+../Core/Src/Timer_program.c:63:6:TimerX_ExternalCounterOnETR	16	static
+../Core/Src/Timer_program.c:101:6:TimerX_PWM	16	static
+../Core/Src/Timer_program.c:201:6:TimerX_EncoderMode	16	static
+../Core/Src/Timer_program.c:227:5:TimerX_GetCount	16	static
+../Core/Src/Timer_program.c:232:6:TimerX_Clearflag	16	static
+../Core/Src/Timer_program.c:237:6:Timer3_voidSetCallBack	16	static
+../Core/Src/Timer_program.c:242:6:TIM3_IRQHandler	8	static

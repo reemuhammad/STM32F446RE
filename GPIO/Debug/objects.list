@@ -1,0 +1,4 @@
+"./Src/GPIO_program.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Startup/startup_stm32f446retx.o"

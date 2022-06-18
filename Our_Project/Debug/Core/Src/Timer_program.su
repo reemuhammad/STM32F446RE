@@ -1,0 +1,15 @@
+../Core/Src/Timer_program.c:23:6:TimerX_Count	16	static
+../Core/Src/Timer_program.c:64:6:TimerX_ExternalCounterOnETR	16	static
+../Core/Src/Timer_program.c:102:6:TimerX_PWM	16	static
+../Core/Src/Timer_program.c:203:6:TimerX_EncoderMode	16	static
+../Core/Src/Timer_program.c:232:5:TimerX_GetCount	16	static
+../Core/Src/Timer_program.c:238:6:TimerX_ClearCounter	16	static
+../Core/Src/Timer_program.c:243:6:TimerX_Clearflag	16	static
+../Core/Src/Timer_program.c:249:6:Timer2_voidSetCallBack	16	static
+../Core/Src/Timer_program.c:254:6:TIM2_IRQHandler	8	static
+../Core/Src/Timer_program.c:260:6:Timer3_voidSetCallBack	16	static
+../Core/Src/Timer_program.c:265:6:TIM3_IRQHandler	8	static
+../Core/Src/Timer_program.c:271:6:Timer4_voidSetCallBack	16	static
+../Core/Src/Timer_program.c:276:6:TIM4_IRQHandler	8	static
+../Core/Src/Timer_program.c:282:6:Timer5_voidSetCallBack	16	static
+../Core/Src/Timer_program.c:287:6:TIM5_IRQHandler	8	static

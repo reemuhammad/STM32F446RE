@@ -1,0 +1,4 @@
+../Src/Timer_program.c:16:6:TimerX_Count	16	static
+../Src/Timer_program.c:54:6:TimerX_ExternalCounterOnETR	16	static
+../Src/Timer_program.c:92:6:TimerX_PWM	16	static
+../Src/Timer_program.c:190:6:TimerX_EncoderMode	16	static
