@@ -11,6 +11,11 @@
 #include "CAN_private.h"
 #include "CAN_config.h"
 
+void CAN_InitInterrupt(CAN_Interrupts Copy_Can_Interrupt)
+{
+	/*Enable the chosen interrupt*/
+	SET_BIT(CAN_CONTROL_AND_STATUS->CAN_IER,Copy_Can_Interrupt);
+}
 
 void CAN_voidInitialize(CAN_Init_t * Copy_t_Init)
 {
@@ -423,11 +428,7 @@ void CAN_voidReceive(CAN_Receive_t * Copy_t_ReceivedMessage)
 	}
 }
 
-void CAN_InitInterrupt(CAN_Interrupts Copy_Can_Interrupt)
-{
-	/*Enable the chosen interrupt*/
-	SET_BIT(CAN_CONTROL_AND_STATUS->CAN_IER,Copy_Can_Interrupt);
-}
+
 
 /*****************************************************************************************************************/
 /*Hagras*/

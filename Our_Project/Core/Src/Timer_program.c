@@ -229,6 +229,31 @@ void TimerX_EncoderMode(Timer_No_e Copy_e_Timer)
 	SET_BIT(Timer_Number[Copy_e_Timer]->TIMx_CR1, TIMx_CR1_CEN);
 }
 
+void TimerXChangeDutyCycleOfPWM(Timer_No_e Copy_e_Timer, Timer_Channl_e Copy_e_Channel, u8 Copy_u8_DutyCycle)
+{
+	switch(Copy_e_Channel)
+		{
+		case CH1:
+			/*Set the duty cycle*/
+			Timer_Number[Copy_e_Timer]->TIMx_CCR1 = ( (0xffff * Copy_u8_DutyCycle) /255 );
+			break;
+		case CH2:
+			/*Set the duty cycle*/
+			Timer_Number[Copy_e_Timer]->TIMx_CCR2 = ( (0xffff * Copy_u8_DutyCycle) /255 );
+			break;
+		case CH3:
+			/*Set the duty cycle*/
+			Timer_Number[Copy_e_Timer]->TIMx_CCR3 = ( (0xffff * Copy_u8_DutyCycle) /255 );
+			break;
+		case CH4:
+			/*Set the duty cycle*/
+			Timer_Number[Copy_e_Timer]->TIMx_CCR4 = ( (0xffff * Copy_u8_DutyCycle) /255 );
+			break;
+		}
+
+
+}
+
 u32 TimerX_GetCount(Timer_No_e Copy_e_Timer)
 {
 	return Timer_Number[Copy_e_Timer]->TIMx_CNT;

@@ -1,6 +1,6 @@
 ../Core/Src/GPIO_program.c:11:6:GPIO_voidSetPinDirection	20	static
-../Core/Src/GPIO_program.c:105:6:GPIO_voidSetPinValue	0	static
-../Core/Src/GPIO_program.c:135:4:GPIO_u8GetPinValue	0	static
-../Core/Src/GPIO_program.c:159:6:GPIO_voidWritePort	0	static
-../Core/Src/GPIO_program.c:181:6:GPIO_voidLockPin	0	static
-../Core/Src/GPIO_program.c:225:6:GPIO_voidSetAlternatingFunction	8	static
+../Core/Src/GPIO_program.c:155:6:GPIO_voidSetPinValue	0	static
+../Core/Src/GPIO_program.c:193:4:GPIO_u8GetPinValue	0	static
+../Core/Src/GPIO_program.c:224:6:GPIO_voidWritePort	0	static
+../Core/Src/GPIO_program.c:253:6:GPIO_voidLockPin	0	static
+../Core/Src/GPIO_program.c:311:6:GPIO_voidSetAlternatingFunction	8	static

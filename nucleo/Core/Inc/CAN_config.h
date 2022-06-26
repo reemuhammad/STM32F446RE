@@ -22,15 +22,15 @@
 
 /*Activate lock-back mode from here if wanted*/
 #define LOCK_BACK_MODE										DISABLE
-#define LOCK_BACK_COMBINED_WITH_SILENT_MODE					ENABLE
+#define LOCK_BACK_COMBINED_WITH_SILENT_MODE					DISABLE
 
 
 u32 Filter_Banks_Config[28*2]=
 		{
 			/*Filter_0_Bank_1*/
-				0xC0000000,
+				0x0000,
 			/*Filter_0_Bank_2*/
-				0xC0000000,
+				0x0000,
 
 			/*Filter_1_Bank_1*/
 				   0x0000,
@@ -38,7 +38,7 @@ u32 Filter_Banks_Config[28*2]=
 				   0x0000,
 
 		    /*Filter_2_Bank_1*/
-				   0x0000,
+				   0xC0000000,
 		    /*Filter_2_Bank_2*/
 				   0x0000,
 

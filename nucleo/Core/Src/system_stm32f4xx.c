@@ -86,29 +86,11 @@
 #endif /* STM32F427xx || STM32F437xx || STM32F429xx || STM32F439xx || STM32F446xx || STM32F469xx ||\
           STM32F479xx */
 
-/* Note: Following vector table addresses must be defined in line with linker
-         configuration. */
-/*!< Uncomment the following line if you need to relocate the vector table
-     anywhere in Flash or Sram, else the vector table is kept at the automatic
-     remap of boot address selected */
-/* #define USER_VECT_TAB_ADDRESS */
-
-#if defined(USER_VECT_TAB_ADDRESS)
-/*!< Uncomment the following line if you need to relocate your vector Table
-     in Sram else user remap will be done in Flash. */
+/*!< Uncomment the following line if you need to relocate your vector Table in
+     Internal SRAM. */
 /* #define VECT_TAB_SRAM */
-#if defined(VECT_TAB_SRAM)
-#define VECT_TAB_BASE_ADDRESS   SRAM_BASE       /*!< Vector Table base address field.
-                                                     This value must be a multiple of 0x200. */
-#define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.
-                                                     This value must be a multiple of 0x200. */
-#else
-#define VECT_TAB_BASE_ADDRESS   FLASH_BASE      /*!< Vector Table base address field.
-                                                     This value must be a multiple of 0x200. */
-#define VECT_TAB_OFFSET         0x00000000U     /*!< Vector Table base offset field.
-                                                     This value must be a multiple of 0x200. */
-#endif /* VECT_TAB_SRAM */
-#endif /* USER_VECT_TAB_ADDRESS */
+#define VECT_TAB_OFFSET  0x00 /*!< Vector Table base offset field.
+                                   This value must be a multiple of 0x200. */
 /******************************************************************************/
 
 /**
@@ -175,10 +157,12 @@ void SystemInit(void)
   SystemInit_ExtMemCtl(); 
 #endif /* DATA_IN_ExtSRAM || DATA_IN_ExtSDRAM */
 
-  /* Configure the Vector Table location -------------------------------------*/
-#if defined(USER_VECT_TAB_ADDRESS)
-  SCB->VTOR = VECT_TAB_BASE_ADDRESS | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
-#endif /* USER_VECT_TAB_ADDRESS */
+  /* Configure the Vector Table location add offset address ------------------*/
+#ifdef VECT_TAB_SRAM
+  SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+#else
+  SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH */
+#endif
 }
 
 /**
@@ -384,7 +368,6 @@ void SystemInit_ExtMemCtl(void)
   
   /* PALL command */
   FMC_Bank5_6->SDCMR = 0x00000012;           
-  tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
@@ -393,7 +376,6 @@ void SystemInit_ExtMemCtl(void)
   
   /* Auto refresh command */
   FMC_Bank5_6->SDCMR = 0x00000073;
-  tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
@@ -402,7 +384,6 @@ void SystemInit_ExtMemCtl(void)
  
   /* MRD register program */
   FMC_Bank5_6->SDCMR = 0x00046014;
-  tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
@@ -592,7 +573,6 @@ void SystemInit_ExtMemCtl(void)
   
   /* PALL command */
   FMC_Bank5_6->SDCMR = 0x00000012;           
-  tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
@@ -605,7 +585,6 @@ void SystemInit_ExtMemCtl(void)
 #else  
   FMC_Bank5_6->SDCMR = 0x00000073;
 #endif /* STM32F446xx */
-  tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {
@@ -618,7 +597,6 @@ void SystemInit_ExtMemCtl(void)
 #else  
   FMC_Bank5_6->SDCMR = 0x00046014;
 #endif /* STM32F446xx */
-  tmpreg = FMC_Bank5_6->SDSR & 0x00000020;
   timeout = 0xFFFF;
   while((tmpreg != 0) && (timeout-- > 0))
   {

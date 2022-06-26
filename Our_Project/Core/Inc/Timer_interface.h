@@ -95,6 +95,8 @@ void TimerX_EncoderMode(Timer_No_e Copy_e_Timer);
 
 //void TimerX_ExternalCounterOnTIxPin(Timer_No_e Copy_e_Timer, u16 Copy_u16_Counts);
 
+void TimerXChangeDutyCycleOfPWM(Timer_No_e Copy_e_Timer, Timer_Channl_e Copy_e_Channel, u8 Copy_u8_DutyCycle);
+
 void Timer2_voidSetCallBack( void (* ptr) (void) );
 void Timer3_voidSetCallBack( void (* ptr) (void) );
 void Timer4_voidSetCallBack( void (* ptr) (void) );

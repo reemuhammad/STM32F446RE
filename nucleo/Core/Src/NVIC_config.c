@@ -29,7 +29,8 @@ const NVIC_CfgType NVIC_Cfg[NVIC_ACTIVATED_INT_SIZE] ={
 	/* Interupt_Number    Group_Priority     SubGroup_Priority */
  { 	DMA2_Stream5,    					0,                    0          },
  { 	DMA2_Stream7,    					0,                    0          },
- { 	USART1,    					0,                    0          }
+ { 	USART1,    					0,                    0          },
+ {  CAN1_RX0,                    0,                    0}
 };
 /*********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES

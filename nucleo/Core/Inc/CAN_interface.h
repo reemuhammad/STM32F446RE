@@ -98,6 +98,10 @@ void CAN_voidTransmit(CAN_frame_t * Copy_t_frame, u8 * Copy_ptr_u8_Message);
 void CAN_voidReceive(CAN_Receive_t * Copy_t_ReceivedMessage);
 void CAN_InitInterrupt(CAN_Interrupts Copy_Can_Interrupt);
 
+void CAN1_TX_voidSetCallBack( void (* ptr) (void) );
+void CAN1_RX0_voidSetCallBack( void (* ptr) (void) );
+void CAN1_RX1_voidSetCallBack( void (* ptr) (void) );
+void CAN1_SCE_voidSetCallBack( void (* ptr) (void) );
 /*******************************************************************************************/
 /*Hagras*/
 

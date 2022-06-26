@@ -33,9 +33,8 @@ const f64 rpm_to_radians = 0.10471975512;
 f64 right_radian_per_second =0;
 f64 left_radian_per_second  =0;
 
-u8 PWM_right_motor= 20;
-u8 PWM_left_motor= 20;
-
+u8 PWM_right_motor= 10;
+u8 PWM_left_motor= 10;
 
 void readEncoder(void)
 {
@@ -130,6 +129,7 @@ int main(void)
 	RCC_voidEnableCompClk(RCC_AHB1,RCC_AHB1_GPIOA);
 	RCC_voidEnableCompClk(RCC_AHB1,RCC_AHB1_GPIOB);
 	RCC_voidEnableCompClk(RCC_AHB1,RCC_AHB1_GPIOC);
+	RCC_voidEnableCompClk(RCC_AHB1,RCC_AHB1_GPIOD);
 
 	/*Enable clock for Timers from 2 to 5*/
 	RCC_voidEnableCompClk(RCC_APB1,RCC_APB1_TIM2);
@@ -140,13 +140,24 @@ int main(void)
 	/*Enable clock for UART 3*/
 	RCC_voidEnableCompClk(RCC_APB1,RCC_APB1_USART3);
 
+	/*Direction pins*/
+	/*Right motor */
+	GPIO_voidSetPinDirection(GPIOC,PIN7,OUTPUT_PUSH_PULL_NO_PUPD_MEDIUM_SPEED);
+	GPIO_voidSetPinDirection(GPIOB,PIN10,OUTPUT_PUSH_PULL_NO_PUPD_MEDIUM_SPEED);
+    /*Left motor */
+    GPIO_voidSetPinDirection(GPIOB,PIN3,OUTPUT_PUSH_PULL_NO_PUPD_MEDIUM_SPEED);
+    GPIO_voidSetPinDirection(GPIOD,PIN2,OUTPUT_PUSH_PULL_NO_PUPD_MEDIUM_SPEED);
+
 	/*Set alternating functions pins*/
 	/*PWM Pins*/
+    /*Right motor*/
+    GPIO_voidSetPinDirection(GPIOB,PIN5,ALTERNATING_FUNCTION_PUSH_PULL_WITH_PU_MEDIUM_SPEED);
+    /*Left motor*/
 	GPIO_voidSetPinDirection(GPIOB,PIN4,ALTERNATING_FUNCTION_PUSH_PULL_WITH_PU_MEDIUM_SPEED);
-	GPIO_voidSetPinDirection(GPIOB,PIN5,ALTERNATING_FUNCTION_PUSH_PULL_WITH_PU_MEDIUM_SPEED);
 
-	GPIO_voidSetAlternatingFunction(GPIOB,PIN4,AF2);
 	GPIO_voidSetAlternatingFunction(GPIOB,PIN5,AF2);
+	GPIO_voidSetAlternatingFunction(GPIOB,PIN4,AF2);
+
 
 	/*UART3 Pins*/
 	GPIO_voidSetPinDirection(GPIOC,PIN10,ALTERNATING_FUNCTION_PUSH_PULL_WITH_PU_MEDIUM_SPEED);
@@ -177,6 +188,14 @@ int main(void)
 	/*Get the PWM value for the motors velocity from the received data from UART*/
 	MUSART3_voidSetCallBack(getVelocity);
 
+	/*Write direction*/
+	/*Right motor*/
+	GPIO_voidSetPinValue(GPIOC,PIN7,GPIO_HIGH);
+	GPIO_voidSetPinValue(GPIOB,PIN10,GPIO_LOW);
+	/*Left motor*/
+	GPIO_voidSetPinValue(GPIOB,PIN3,GPIO_HIGH);
+	GPIO_voidSetPinValue(GPIOD,PIN2,GPIO_LOW);
+
 	/*Enable encoder mode on timer 2 for right motor */
 	TimerX_EncoderMode(TIMER_2_);
 	/*Enable encoder mode on timer 4 for left motor */
@@ -188,14 +207,14 @@ int main(void)
 	Timer5_voidSetCallBack(readEncoder);
 
 	/*Initialize PWM on right motor with duty cycle 20% as a start*/
-	TimerX_PWM(TIMER_3_,CH1,20);
-	/*Initialize PWM on left motor with duty cycle 20% as a start*/
 	TimerX_PWM(TIMER_3_,CH2,20);
+	/*Initialize PWM on left motor with duty cycle 20% as a start*/
+	TimerX_PWM(TIMER_3_,CH1,20);
 
 	while(1)
 	{
-		TimerX_PWM(TIMER_3_,CH1,PWM_right_motor);
-		TimerX_PWM(TIMER_3_,CH2,PWM_left_motor);
+		TimerXChangeDutyCycleOfPWM(TIMER_3_,CH2,PWM_right_motor);
+		TimerXChangeDutyCycleOfPWM(TIMER_3_,CH1,PWM_left_motor);
 	}
 
 	return 1;

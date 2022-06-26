@@ -5,19 +5,35 @@
 #include "NVIC_interface.h"
 #include "CAN_interface.h"
 
+/*Received data struct*/
+CAN_Receive_t received_data;
+
+/*void receive(void)
+{
+
+}*/
+
+void delay(u32 val)
+{
+	while(val--)
+	{
+		asm("NOP");
+	}
+}
 
 int main()
 {
 	/*Initialize struct*/
 	CAN_Init_t Initialize_struct;
-	Initialize_struct.No_Of_Can1Filters = 1;
+	Initialize_struct.No_Of_Can1Filters = 2;
 	Initialize_struct.Filter_Scale= Single_32_bit_scale;
-	Initialize_struct.No_Of_Filters_For_FIFO_ZERO =1;
-	Initialize_struct.No_Of_Filters_In_List_Mode =1;
+	Initialize_struct.No_Of_Filters_For_FIFO_ZERO =2;
+	Initialize_struct.No_Of_Filters_In_List_Mode =0;
 
 	RCC_voidInitSystemClock();
 	RCC_voidEnableCompClk(RCC_APB1,RCC_APB1_CAN1);
 	RCC_voidEnableCompClk(RCC_AHB1,RCC_AHB1_GPIOA);
+	RCC_voidEnableCompClk(RCC_AHB1,RCC_AHB1_GPIOB);
 	NVIC_Init();
 
 	/*LED test pin*/
@@ -25,15 +41,19 @@ int main()
 
 
 	/*Enable CAN1 Rx pin*/
-	GPIO_voidSetPinDirection(GPIOA,11,ALTERNATING_FUNCTION_OPEN_DRAIN_WITH_PU_MEDIUM_SPEED);
+	GPIO_voidSetPinDirection(GPIOA,11,ALTERNATING_FUNCTION_PUSH_PULL_NO_PUPD_MEDIUM_SPEED);
 	/*Enable CAN1 Tx pin*/
-	GPIO_voidSetPinDirection(GPIOA,12,ALTERNATING_FUNCTION_PUSH_PULL_WITH_PU_MEDIUM_SPEED);
+	GPIO_voidSetPinDirection(GPIOA,12,ALTERNATING_FUNCTION_PUSH_PULL_NO_PUPD_MEDIUM_SPEED);
 	/*Set alternating function*/
 	GPIO_voidSetAlternatingFunction(GPIOA,11,AF9);
 	GPIO_voidSetAlternatingFunction(GPIOA,12,AF9);
 
 	/*Initialize CAN1*/
 	CAN_voidInitialize(&Initialize_struct);
+
+	/*Enable receive FIFO0 interrupt*/
+	//CAN_InitInterrupt(FIFO_0_message_pending_interrupt);
+
 
 	/*Initialize filters*/
 	/*CAN_Filter_Header_TypeDef filter_t;
@@ -47,29 +67,35 @@ int main()
 	CAN_Filters_Init(array,1); */
 
 	/*Transmit struct*/
-	CAN_frame_t message;
+	/*  CAN_frame_t message;
 	message.DataLength = Two_Bytes;
 	message.FrameType=Data_frame;
 	message.ID_Type=Standarad_ID;
 	message.ID= 0x600;
 
-	u8 message_arr[]= {'a','b'};
+	u8 message_arr[]= {'a','b'}; */
 
-	/*Received data struct*/
-	CAN_Receive_t received_data;
-	CAN_voidTransmit(&message, message_arr);
+
+	//CAN1_RX0_voidSetCallBack(receive);
+	//CAN_voidTransmit(&message, message_arr);
+
+
+
 	while(1)
 	{
-
 		CAN_voidReceive(&received_data);
-        if( (u8)(received_data.Message[0]) ==  (u8) 'a' )
-		{
-        	if( (received_data.Message[1]) == (u8) 'b' )
+		if( (u8)(received_data.Message[0]) ==  (u8) 'a' )
 			{
-        		GPIO_voidSetPinValue(GPIOA,0,GPIO_HIGH);
+			    if( (received_data.Message[1]) == (u8) 'b' )
+					{
+			        	GPIO_voidSetPinValue(GPIOA,0,GPIO_HIGH);
+					}
+
 			}
 
-		}
+		//delay(1000000);
+		//CAN_voidTransmit(&message, message_arr);
+
 	}
 
 	return 1 ;

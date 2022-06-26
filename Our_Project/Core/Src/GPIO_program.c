@@ -97,6 +97,56 @@ void GPIO_voidSetPinDirection(GPIO_enum Copy_u8Port, GPIO_enum Copy_u8Pin, GPIO_
 
 		    	break;
 
+
+		 /* If port D is chosen */
+		    case GPIOD:
+		    	/*Clear the two corresponding bits of the pin in GPIO port D mode register */
+		    	GPIOD_MODER &= ~( 0b11 << (Copy_u8Pin*2) );
+		    	/*Set the value of the two corresponding bits of the pin in GPIO port D mode register */
+		    	GPIOD_MODER |=  ( (Local_u8Mode) << (Copy_u8Pin*2) );
+
+		    	/*Clear the corresponding bit of the pin in GPIO port D output type register */
+		    	CLR_BIT(GPIOD_OTYPER,Copy_u8Pin);
+		    	/*Set the value of the corresponding bit of the pin in GPIO port D output type register */
+		    	GPIOD_OTYPER |= ( (Local_u8OutputType) << (Copy_u8Pin) );
+
+		    	/*Clear the two corresponding bits of the pin in GPIO port D output speed register */
+		    	GPIOD_OSPEEDER &= ~( 0b11 << (Copy_u8Pin*2) );
+		    	/*Set the value of the two corresponding bits of the pin in GPIO port D output speed register */
+		    	GPIOD_OSPEEDER |= ( (Local_u8Speed) << (Copy_u8Pin*2));
+
+		    	/*Clear the two corresponding bits of the pin in GPIO port D pull-up/pull-down register */
+		    	GPIOD_PUPDR &= ~( 0b11 << (Copy_u8Pin*2) );
+		    	/*Set the value of the two corresponding bits of the pin in GPIO port D pull-up/pull-down register */
+		    	GPIOD_PUPDR |= ( (Local_u8PUPD) << (Copy_u8Pin*2));
+
+		    	break;
+
+
+		  /* If port H is chosen */
+			case GPIOH:
+				/*Clear the two corresponding bits of the pin in GPIO port H mode register */
+				GPIOH_MODER &= ~( 0b11 << (Copy_u8Pin*2) );
+				/*Set the value of the two corresponding bits of the pin in GPIO port H mode register */
+				GPIOH_MODER |=  ( (Local_u8Mode) << (Copy_u8Pin*2) );
+
+				/*Clear the corresponding bit of the pin in GPIO port H output type register */
+				CLR_BIT(GPIOH_OTYPER,Copy_u8Pin);
+				/*Set the value of the corresponding bit of the pin in GPIO port H output type register */
+				GPIOH_OTYPER |= ( (Local_u8OutputType) << (Copy_u8Pin) );
+
+				/*Clear the two corresponding bits of the pin in GPIO port H output speed register */
+				GPIOH_OSPEEDER &= ~( 0b11 << (Copy_u8Pin*2) );
+				/*Set the value of the two corresponding bits of the pin in GPIO port H output speed register */
+				GPIOH_OSPEEDER |= ( (Local_u8Speed) << (Copy_u8Pin*2));
+
+				/*Clear the two corresponding bits of the pin in GPIO port H pull-up/pull-down register */
+				GPIOH_PUPDR &= ~( 0b11 << (Copy_u8Pin*2) );
+				/*Set the value of the two corresponding bits of the pin in GPIO port H pull-up/pull-down register */
+				GPIOH_PUPDR |= ( (Local_u8PUPD) << (Copy_u8Pin*2));
+
+				break;
+
 		    default:
 		    	break;
 		}
@@ -126,6 +176,14 @@ void GPIO_voidSetPinValue(GPIO_enum Copy_u8Port, GPIO_enum Copy_u8Pin, GPIO_enum
 		    case GPIOC:
 		    	SET_BIT(GPIOC_BSRR,Copy_u8Pin);
 		    	break;
+		/* If port D is chosen */
+		    case GPIOD:
+		    	SET_BIT(GPIOD_BSRR,Copy_u8Pin);
+		    	break;
+		/* If port H is chosen */
+		    case GPIOH:
+		    	SET_BIT(GPIOH_BSRR,Copy_u8Pin);
+		    	break;
 
 		    default:
 		   		break;
@@ -149,7 +207,14 @@ u8 GPIO_u8GetPinValue(GPIO_enum Copy_u8Port, GPIO_enum Copy_u8Pin)
 		    case GPIOC:
 		    	Local_u8PinValue = GET_BIT(GPIOC_IDR,Copy_u8Pin);
 		    	break;
-
+		/* If port D is chosen */
+		    case GPIOD:
+		    	Local_u8PinValue = GET_BIT(GPIOD_IDR,Copy_u8Pin);
+		    	break;
+		/* If port H is chosen */
+		    case GPIOH:
+		    	Local_u8PinValue = GET_BIT(GPIOH_IDR,Copy_u8Pin);
+		    	break;
 		    default:
 		   		break;
         }
@@ -172,7 +237,14 @@ void GPIO_voidWritePort(GPIO_enum Copy_u8Port, u16 Copy_u16PortValue)
 	 	    case GPIOC:
 	 	    	GPIOC_ODR = Copy_u16PortValue;
 	 	    	break;
-
+	 	/* If port D is chosen */
+	 	    case GPIOD:
+	 	    	GPIOD_ODR = Copy_u16PortValue;
+	 	    	break;
+	 	/* If port H is chosen */
+	 	    case GPIOH:
+	 	    	GPIOH_ODR = Copy_u16PortValue;
+	 	    	break;
 	 	   default:
 	 	  		break;
 	 	}
@@ -215,7 +287,21 @@ void GPIO_voidLockPin(GPIO_enum Copy_u8Port, GPIO_enum Copy_u8Pin)
 		    	GPIOC_LCKR = Local_u8Lock;
 		    	Local_u8Lock = GPIOC_LCKR;
 		    	break;
+		/* If port D is chosen */
+		    case GPIOD:
+		    	GPIOD_LCKR = Local_u8Lock;
+		    	GPIOD_LCKR = (1<<Copy_u8Pin);
+		    	GPIOD_LCKR = Local_u8Lock;
+		    	Local_u8Lock = GPIOD_LCKR;
+		    	break;
 
+		/* If port H is chosen */
+		    case GPIOH:
+		    	GPIOH_LCKR = Local_u8Lock;
+		    	GPIOH_LCKR = (1<<Copy_u8Pin);
+		    	GPIOH_LCKR = Local_u8Lock;
+		    	Local_u8Lock = GPIOH_LCKR;
+		    	break;
 		    default:
 		   		break;
 		}
@@ -256,6 +342,27 @@ void GPIO_voidSetAlternatingFunction(GPIO_enum Copy_u8Port, GPIO_enum Copy_u8Pin
 				GPIOC_AFRH |= Copy_u8Peripheral << ((Copy_u8Pin - 8) *4) ;
 			}
 			break;
+		case GPIOD:
+			if(Copy_u8Pin <= 7)
+			{
+				GPIOD_AFRL |= Copy_u8Peripheral << (Copy_u8Pin *4) ;
+			}
+			else if (Copy_u8Pin >= 8)
+			{
+				GPIOD_AFRH |= Copy_u8Peripheral << ((Copy_u8Pin - 8) *4) ;
+			}
+			break;
+		case GPIOH:
+			if(Copy_u8Pin <= 7)
+			{
+				GPIOH_AFRL |= Copy_u8Peripheral << (Copy_u8Pin *4) ;
+			}
+			else if (Copy_u8Pin >= 8)
+			{
+				GPIOH_AFRH |= Copy_u8Peripheral << ((Copy_u8Pin - 8) *4) ;
+			}
+			break;
+
 		default:
 			break;
 	}

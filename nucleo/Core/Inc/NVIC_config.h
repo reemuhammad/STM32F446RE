@@ -29,7 +29,7 @@
 /*Enable/Disable All Interrupt Choose between (CPU_DISABLE_ALL_Interupts()/CPU_Enable_ALL_Interupts())*/
 #define   Enable_Disable_All_Interrupt CPU_Enable_ALL_Interupts()
 
-#define NVIC_ACTIVATED_INT_SIZE  1
+#define NVIC_ACTIVATED_INT_SIZE  4
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
